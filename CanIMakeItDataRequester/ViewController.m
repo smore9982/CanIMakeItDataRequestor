@@ -44,44 +44,15 @@
     request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSError* error;
-        NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSString *responeStr=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(responeStr);
+        /*NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         for (int i=0;i<jsonData.count; i++) {
             NSDictionary* stopDict= [jsonData objectAtIndex:i];
             
             NSString *stopName = [stopDict objectForKey:@"stop_name"];
-            NSLog(stopName);
-        }
+        }*/
     }];
-}
-
-- (void)connection:(NSURLConnection *)theConnection didReceiveResponse:(NSURLResponse *)response{
-    NSHTTPURLResponse * httpResponse;
-    NSString *          contentTypeHeader;
-    
-    assert(theConnection == self.connection);
-    
-    httpResponse = (NSHTTPURLResponse *) response;
-    assert( [httpResponse isKindOfClass:[NSHTTPURLResponse class]] );
-    
-
-    // -MIMEType strips any parameters, strips leading or trailer whitespace, and lower cases
-    // the string, so we can just use -isEqual: on the result.
-    contentTypeHeader = [httpResponse MIMEType];
-    NSLog(contentTypeHeader);
-
-}
-
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)data
-{
-    NSError* error;
-    NSString *response=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    for (int i=0;i<jsonData.count; i++) {
-        NSDictionary* stopDict= [jsonData objectAtIndex:i];
-        
-        NSString *stopName = [stopDict objectForKey:@"stop_name"];
-        NSLog(stopName);
-    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)theConnection{

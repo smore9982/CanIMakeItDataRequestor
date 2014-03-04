@@ -7,11 +7,14 @@
 //
 
 #import "ViewController.h"
+#import "StopModel.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *getDataButton;
+@property (weak, nonatomic) IBOutlet UITextView *textBox;
 @property NSURLConnection *connection;
-
+@property NSMutableArray *stops;
+@property (weak, nonatomic) IBOutlet UITextView *stopTextBox;
 @end
 
 @implementation ViewController
@@ -19,6 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.stops = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -27,35 +31,68 @@
 }
 
 
-
 - (IBAction)getData:(id)sender {
-    [self startReceive];
-    
+    [self startGetStopsRequest];
+    [self.textBox setText:@"Getting stops"];
 }
 
-- (void)startReceive
-// Starts a connection to download the current URL.
+- (void)startGetStopsRequest
 {
+    //Url of web service.
     NSString *urlStr = @"http://ec2-54-83-18-44.compute-1.amazonaws.com:8080/CanIMakeWebService/GetStops";
-    BOOL  success;
     NSURL *url= [NSURL URLWithString:urlStr];
     NSURLRequest *request;
     
     request = [NSURLRequest requestWithURL:url];
+    //Send an asyncronous request to get data from url.
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSError* error;
-        NSString *responeStr=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(responeStr);
-        /*NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        for (int i=0;i<jsonData.count; i++) {
-            NSDictionary* stopDict= [jsonData objectAtIndex:i];
-            
-            NSString *stopName = [stopDict objectForKey:@"stop_name"];
-        }*/
+        if(connectionError != nil){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showStopsError:connectionError];
+            });
+        }else{
+            //Use this to run on UI Thread from a background thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showStopsResponse:data];
+            });
+        }
     }];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)theConnection{
+-(void) loadStopData{
+    NSString* stopList = @"";
+    for(int i=0; i<[self.stops count];i++){
+        StopModel* model = [self.stops objectAtIndex:i];
+        NSString* str = [NSString stringWithFormat:@"Stop Id: %@ , Stop Name: %@\n",model.stopId,model.stopName];
+        //String you concatenating to cannot be nil. Otherwise it won't work.
+        stopList = [stopList stringByAppendingString:str];
+    }
+    [self.stopTextBox setText:stopList];
+}
+
+-(void)showStopsResponse:(NSData*) responseData{
+    NSError* error;
+    //Add the response to the top text box.
+    NSString *responeStr=[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+    [self.textBox setText:responeStr];
     
+    //Do json desrialization on data
+    NSArray* stopsArray = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    //Iterate over array and parse json data
+    for(int i=0;i<[stopsArray count];i++){
+        //Each array object can be put into NSDictionary.
+        NSDictionary* stopData = [stopsArray objectAtIndex:i];
+        NSString* stopId = [stopData valueForKey:@"id"];
+        NSString* stopName = [stopData valueForKey:@"name"];
+        StopModel* stopModel = [[StopModel alloc]init];
+        stopModel.stopId = stopId;
+        stopModel.stopName = stopName;
+        [self.stops addObject:stopModel];
+    }
+    [self loadStopData];
+}
+
+-(void)showStopsError:(NSError*) error{
+    [self.textBox setText:@"There was an issued getting stops"];
 }
 @end

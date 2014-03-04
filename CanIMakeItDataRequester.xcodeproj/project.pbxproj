@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BB22AAD18C58E9A009A0A49 /* StopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB22AAC18C58E9A009A0A49 /* StopModel.m */; };
 		8BC01B0818C2F83A00B6BF0A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC01B0718C2F83A00B6BF0A /* Foundation.framework */; };
 		8BC01B0A18C2F83A00B6BF0A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC01B0918C2F83A00B6BF0A /* CoreGraphics.framework */; };
 		8BC01B0C18C2F83A00B6BF0A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC01B0B18C2F83A00B6BF0A /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BB22AAB18C58E9A009A0A49 /* StopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopModel.h; sourceTree = "<group>"; };
+		8BB22AAC18C58E9A009A0A49 /* StopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopModel.m; sourceTree = "<group>"; };
 		8BC01B0418C2F83A00B6BF0A /* CanIMakeItDataRequester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CanIMakeItDataRequester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BC01B0718C2F83A00B6BF0A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8BC01B0918C2F83A00B6BF0A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -122,6 +125,8 @@
 				8BC01B2018C2F83A00B6BF0A /* ViewController.m */,
 				8BC01B2218C2F83A00B6BF0A /* Images.xcassets */,
 				8BC01B0E18C2F83A00B6BF0A /* Supporting Files */,
+				8BB22AAB18C58E9A009A0A49 /* StopModel.h */,
+				8BB22AAC18C58E9A009A0A49 /* StopModel.m */,
 			);
 			path = CanIMakeItDataRequester;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BC01B2118C2F83A00B6BF0A /* ViewController.m in Sources */,
+				8BB22AAD18C58E9A009A0A49 /* StopModel.m in Sources */,
 				8BC01B1818C2F83A00B6BF0A /* AppDelegate.m in Sources */,
 				8BC01B1418C2F83A00B6BF0A /* main.m in Sources */,
 			);
@@ -474,6 +480,7 @@
 				8BC01B3B18C2F83A00B6BF0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8BC01B3C18C2F83A00B6BF0A /* Build configuration list for PBXNativeTarget "CanIMakeItDataRequesterTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +489,7 @@
 				8BC01B3E18C2F83A00B6BF0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
